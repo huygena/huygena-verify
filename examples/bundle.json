@@ -1,0 +1,32 @@
+{
+  "spec": "bundle.v0",
+  "algorithm": "sha256",
+  "root": "sha256:f4f9b720e599b451270cf55acf8ce794854e86878e7841d674d047a8a2d8dc4d",
+  "files": [
+    {
+      "path": "attestation/report.json",
+      "sha256": "sha256:9a9cc7603dc9bcc111d03c93a9a1077ab066d549ba3d17fe4cfe9a49956d4134",
+      "size": 299
+    },
+    {
+      "path": "logs/node-a.log",
+      "sha256": "sha256:acb135bfe6d879a58c0e16396070e631052d558a72c6bb7763f7eb41ec2e8c35",
+      "size": 476
+    },
+    {
+      "path": "logs/node-b.log",
+      "sha256": "sha256:0eaa3431d067525fa173977efe36169273395dd95f20de88d37faa793c1730cf",
+      "size": 476
+    },
+    {
+      "path": "outputs/node-a/metrics.json",
+      "sha256": "sha256:96efa86a1906ac6426d14ddb85517a8eb79ca940982a44d092904ea72bd9eb95",
+      "size": 222
+    },
+    {
+      "path": "outputs/node-b/metrics.json",
+      "sha256": "sha256:8022af710e70521b29079a2cfc1259f773f8aa6f76bad01ed4ab21cb0ae7a03e",
+      "size": 223
+    }
+  ]
+}

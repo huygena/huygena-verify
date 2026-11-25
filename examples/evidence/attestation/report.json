@@ -1,0 +1,4 @@
+{
+  "example": true,
+  "note": "Placeholder. This is not a real attestation report and carries no signature. In a real run this file holds the NVIDIA and Intel TDX attestation for the GPU TEE. huygena-verify checks that its hash matches the certificate; checking the signature itself is planned."
+}

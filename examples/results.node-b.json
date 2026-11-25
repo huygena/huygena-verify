@@ -1,0 +1,15 @@
+{
+  "spec": "results.v0",
+  "node": "node-b",
+  "manifest": "sha256:3183bd7cd87ba9fcafeed9723ab55255e3d07bcf4b76be55c1759c72d911fbce",
+  "claims": {
+    "table_2.auroc": 0.9109,
+    "table_2.auprc": 0.6802,
+    "figure_3b.slope": 0.788,
+    "table_3.hazard_ratio": 1.05,
+    "table_4.ece": 0.0362,
+    "supp_table_2.external_auroc": {
+      "error": "external validation cohort is not public (data access agreement required)"
+    }
+  }
+}

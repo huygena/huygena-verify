@@ -1,0 +1,47 @@
+# Illustrative example for huygena-verify. The paper, repository and values are
+# made up for the demo: 10.5555 is the DOI prefix Crossref reserves for examples.
+spec: manifest.v0
+paper: "doi:10.5555/huygena.example.0001"
+title: "A two-marker risk score for 3-year outcomes (example)"
+
+claims:
+  - id: table_2.auroc
+    description: "AUROC of the risk score on the held-out test split"
+    reported: 0.912
+    tolerance: 0.005
+    null_value: 0.5
+  - id: table_2.auprc
+    description: "AUPRC on the same split"
+    reported: 0.687
+    tolerance: { rel: 0.02 }
+  - id: figure_3b.slope
+    description: "Calibration slope, Figure 3b"
+    reported: 0.84
+    tolerance: 0.02
+  - id: table_3.hazard_ratio
+    description: "Hazard ratio for marker_a, Cox model"
+    reported: 0.71
+    tolerance: 0.03
+    null_value: 1
+  - id: table_4.ece
+    description: "Expected calibration error"
+    reported: 0.031
+    tolerance: 0.004
+  - id: supp_table_2.external_auroc
+    description: "AUROC on the external validation cohort"
+    reported: 0.874
+    tolerance: 0.01
+    null_value: 0.5
+
+env:
+  container: "ghcr.io/huygena/example-replication@sha256:43fb0c9713dc0caaa2fa6ce25ba0050ceece228b8814fc3204b8f2445e062306"
+  code: "github.com/huygena/example-replication@363f38da5807127e85f8885bc0172d9cf35b032c"
+  data:
+    - path: data/cohort_sample.csv
+      sha256: "sha256:a77ad146be475177233234034ad9c26a09f1a2f0e90582543c935561bb26a6d0"
+  seeds: [0, 1, 2]
+  command: ["python", "reproduce.py", "--all"]
+
+run:
+  where: gpu-tee
+  confirm: independent-node

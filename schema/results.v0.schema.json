@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/huygena/huygena-verify/main/schema/results.v0.schema.json",
+  "title": "Huygena node results v0 (draft)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "type": "string",
+      "const": "results.v0"
+    },
+    "node": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Id of the node that produced these values."
+    },
+    "manifest": {
+      "description": "Manifest hash the node ran. Checked when present.",
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "claims": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string"
+      },
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "number",
+            "description": "The re-run value."
+          },
+          {
+            "type": "null",
+            "description": "No value: the claim could not be run."
+          },
+          {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "error": {
+                "description": "Why the claim could not be run.",
+                "type": "string"
+              },
+              "verdict": {
+                "description": "figure claims only (draft): verdict from a reviewer, since v0 does not compare figures.",
+                "type": "string",
+                "enum": [
+                  "Replicated",
+                  "Partially replicated",
+                  "Failed",
+                  "Could not run"
+                ]
+              },
+              "note": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": {}
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "node",
+    "claims"
+  ],
+  "additionalProperties": {},
+  "description": "Re-run values from one node, keyed by claim id."
+}

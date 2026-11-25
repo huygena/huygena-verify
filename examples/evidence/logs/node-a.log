@@ -1,0 +1,8 @@
+[example] node-a: illustrative log, not from a real run
+[setup] container ghcr.io/huygena/example-replication@sha256:43fb0c97...
+[setup] code github.com/huygena/example-replication@363f38da
+[setup] data/cohort_sample.csv sha256:a77ad146... ok
+[run] python reproduce.py --all  seeds=[0, 1, 2]
+[run] table_2, figure_3b, table_3, table_4: done
+[run] supp_table_2: external validation cohort not available (data access agreement required)
+[done] wrote outputs/node-a/metrics.json

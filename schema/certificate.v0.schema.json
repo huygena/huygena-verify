@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/huygena/huygena-verify/main/schema/certificate.v0.schema.json",
+  "title": "Huygena replication certificate v0 (draft)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "type": "string",
+      "const": "certificate.v0"
+    },
+    "run": {
+      "type": "string",
+      "minLength": 1
+    },
+    "paper": {
+      "type": "string"
+    },
+    "issued": {
+      "type": "string"
+    },
+    "manifest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "manifestHash of the run manifest."
+    },
+    "bundle": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Root hash of the evidence bundle."
+    },
+    "attestation": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "sha256:<64 lowercase hex>"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "SHA-256 of the attestation report."
+        },
+        "path": {
+          "description": "Where the report sits in the evidence bundle.",
+          "type": "string"
+        },
+        "format": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "hash"
+      ],
+      "additionalProperties": {}
+    },
+    "nodes": {
+      "type": "object",
+      "properties": {
+        "primary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confirming": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "primary",
+        "confirming"
+      ],
+      "additionalProperties": {}
+    },
+    "rules": {
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string"
+        },
+        "partial_factor": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "version"
+      ],
+      "additionalProperties": {}
+    },
+    "claims": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "reported": {
+            "type": "number"
+          },
+          "values": {
+            "description": "Re-run value per node id.",
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": [
+                "number",
+                "null"
+              ]
+            }
+          },
+          "verdict": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "Replicated",
+                  "Partially replicated",
+                  "Failed",
+                  "Could not run"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "null while the two nodes disagree."
+          },
+          "mismatch": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "verdict"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "enum": [
+              "replicated",
+              "attested only",
+              "unverified",
+              "attested, not replicated"
+            ]
+          },
+          "outputs": {
+            "description": "Paths in the evidence bundle produced by this step.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "label"
+        ],
+        "additionalProperties": {}
+      }
+    },
+    "chain": {
+      "type": "object",
+      "properties": {
+        "network": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "contract": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "tx": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "network",
+        "contract",
+        "tx"
+      ],
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "spec",
+    "run",
+    "paper",
+    "manifest",
+    "bundle",
+    "attestation",
+    "nodes",
+    "claims"
+  ],
+  "additionalProperties": {},
+  "description": "Huygena replication certificate v0 (draft)."
+}

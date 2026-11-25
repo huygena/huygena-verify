@@ -1,0 +1,233 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/huygena/huygena-verify/main/schema/manifest.v0.schema.json",
+  "title": "Huygena run manifest v0 (draft)",
+  "type": "object",
+  "properties": {
+    "spec": {
+      "description": "Spec version. Recommended.",
+      "type": "string",
+      "const": "manifest.v0"
+    },
+    "paper": {
+      "type": "string",
+      "description": "DOI, arXiv id or bioRxiv DOI."
+    },
+    "title": {
+      "type": "string"
+    },
+    "claims": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Stable claim id, e.g. table_2.auroc."
+          },
+          "description": {
+            "type": "string"
+          },
+          "type": {
+            "description": "Default numeric. structure and figure are draft in v0.",
+            "type": "string",
+            "enum": [
+              "numeric",
+              "structure",
+              "figure"
+            ]
+          },
+          "reported": {
+            "description": "The value printed in the paper. Required for numeric claims.",
+            "type": "number"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "tolerance": {
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "description": "Shorthand for { abs: <number> }."
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "abs": {
+                    "description": "Absolute band: |rerun - reported| <= abs.",
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "rel": {
+                    "description": "Relative band as a fraction of |reported| (0.02 = 2%). Added to abs when both are set.",
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "rmsd": {
+                    "description": "Structure claims (draft): largest accepted RMSD in angstrom.",
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": {}
+              }
+            ],
+            "description": "How far the re-run value may be from the reported value and still count as Replicated. Written before the run."
+          },
+          "partial": {
+            "description": "Optional band for Partially replicated. Default: partial_factor times the tolerance band (draft).",
+            "anyOf": [
+              {
+                "type": "number",
+                "minimum": 0,
+                "description": "Shorthand for { abs: <number> }."
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "abs": {
+                    "description": "Absolute band: |rerun - reported| <= abs.",
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "rel": {
+                    "description": "Relative band as a fraction of |reported| (0.02 = 2%). Added to abs when both are set.",
+                    "type": "number",
+                    "minimum": 0
+                  },
+                  "rmsd": {
+                    "description": "Structure claims (draft): largest accepted RMSD in angstrom.",
+                    "type": "number",
+                    "minimum": 0
+                  }
+                },
+                "additionalProperties": {}
+              }
+            ]
+          },
+          "null_value": {
+            "description": "Value of no effect, used for the direction check. 0 for differences and slopes, 1 for ratios, 0.5 for AUROC. Default 0.",
+            "type": "number"
+          },
+          "reference": {
+            "description": "structure and figure claims: what the re-run is compared with (PDB id, file hash).",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": {},
+        "description": "One claim from the paper to check."
+      }
+    },
+    "env": {
+      "type": "object",
+      "properties": {
+        "container": {
+          "type": "string",
+          "description": "Container image pinned by digest: sha256:<hex> or name@sha256:<hex>."
+        },
+        "code": {
+          "type": "string",
+          "description": "Code at a fixed commit: host/org/repo@<full commit sha>."
+        },
+        "data": {
+          "description": "Datasets by hash.",
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "type": "string",
+                "description": "sha256:<hex> of a dataset."
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "sha256": {
+                    "type": "string"
+                  },
+                  "path": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "sha256"
+                ],
+                "additionalProperties": {}
+              }
+            ]
+          }
+        },
+        "seeds": {
+          "description": "Random seeds, so the run can be repeated.",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -9007199254740991,
+            "maximum": 9007199254740991
+          }
+        },
+        "command": {
+          "description": "Entry point run inside the container.",
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        },
+        "params": {
+          "description": "Parameters passed to the pipeline.",
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {}
+        }
+      },
+      "required": [
+        "container",
+        "code"
+      ],
+      "additionalProperties": {}
+    },
+    "run": {
+      "type": "object",
+      "properties": {
+        "where": {
+          "type": "string",
+          "description": "Where it runs: gpu-tee (Huygena) or local (re-run kit)."
+        },
+        "confirm": {
+          "type": "string",
+          "description": "How it is confirmed: independent-node, or none."
+        }
+      },
+      "required": [
+        "where",
+        "confirm"
+      ],
+      "additionalProperties": {}
+    }
+  },
+  "required": [
+    "paper",
+    "claims",
+    "env",
+    "run"
+  ],
+  "additionalProperties": {},
+  "description": "Huygena run manifest v0 (draft). The contract between the paper and the re-run."
+}

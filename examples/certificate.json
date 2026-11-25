@@ -1,0 +1,104 @@
+{
+  "spec": "certificate.v0",
+  "x_note": "Illustrative example. Not a real run: there is no TEE attestation and nothing on-chain.",
+  "run": "run_example_0001",
+  "paper": "doi:10.5555/huygena.example.0001",
+  "issued": "2026-11-25",
+  "manifest": "sha256:3183bd7cd87ba9fcafeed9723ab55255e3d07bcf4b76be55c1759c72d911fbce",
+  "bundle": "sha256:f4f9b720e599b451270cf55acf8ce794854e86878e7841d674d047a8a2d8dc4d",
+  "attestation": {
+    "hash": "sha256:9a9cc7603dc9bcc111d03c93a9a1077ab066d549ba3d17fe4cfe9a49956d4134",
+    "path": "attestation/report.json",
+    "format": "placeholder"
+  },
+  "nodes": {
+    "primary": "node-a",
+    "confirming": "node-b"
+  },
+  "rules": {
+    "version": "v0-draft",
+    "partial_factor": 3
+  },
+  "claims": [
+    {
+      "id": "table_2.auroc",
+      "reported": 0.912,
+      "values": {
+        "node-a": 0.9104,
+        "node-b": 0.9109
+      },
+      "verdict": "Replicated"
+    },
+    {
+      "id": "table_2.auprc",
+      "reported": 0.687,
+      "values": {
+        "node-a": 0.6791,
+        "node-b": 0.6802
+      },
+      "verdict": "Replicated"
+    },
+    {
+      "id": "figure_3b.slope",
+      "reported": 0.84,
+      "values": {
+        "node-a": 0.79,
+        "node-b": 0.788
+      },
+      "verdict": "Partially replicated"
+    },
+    {
+      "id": "table_3.hazard_ratio",
+      "reported": 0.71,
+      "values": {
+        "node-a": 1.04,
+        "node-b": 1.05
+      },
+      "verdict": "Failed"
+    },
+    {
+      "id": "table_4.ece",
+      "reported": 0.031,
+      "values": {
+        "node-a": 0.0335,
+        "node-b": 0.0362
+      },
+      "verdict": null,
+      "mismatch": true,
+      "reason": "nodes disagree; listed in the mismatch log. The dispute process is an open item."
+    },
+    {
+      "id": "supp_table_2.external_auroc",
+      "reported": 0.874,
+      "values": {
+        "node-a": null,
+        "node-b": null
+      },
+      "reason": "external validation cohort is not public (data access agreement required)",
+      "verdict": "Could not run"
+    }
+  ],
+  "steps": [
+    {
+      "name": "rebuild-environment",
+      "label": "replicated",
+      "outputs": [
+        "logs/node-a.log",
+        "logs/node-b.log"
+      ]
+    },
+    {
+      "name": "run-pipeline",
+      "label": "replicated",
+      "outputs": [
+        "outputs/node-a/metrics.json",
+        "outputs/node-b/metrics.json"
+      ]
+    }
+  ],
+  "chain": {
+    "network": null,
+    "contract": null,
+    "tx": null
+  }
+}

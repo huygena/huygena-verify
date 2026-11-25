@@ -1,0 +1,10 @@
+{
+  "node": "node-b",
+  "seeds": [0, 1, 2],
+  "table_2.auroc": 0.9109,
+  "table_2.auprc": 0.6802,
+  "figure_3b.slope": 0.788,
+  "table_3.hazard_ratio": 1.05,
+  "table_4.ece": 0.0362,
+  "supp_table_2.external_auroc": null
+}
