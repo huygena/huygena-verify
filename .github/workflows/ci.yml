@@ -1,0 +1,45 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+      - name: CLI against examples/
+        run: |
+          node dist/cli.js manifest examples/manifest.yaml
+          node dist/cli.js bundle examples/evidence --expect examples/bundle.json
+          node dist/cli.js cert examples/certificate.json --manifest examples/manifest.yaml --bundle examples/evidence
+          # Not every example claim replicates, so compare exits 1 by design.
+          node dist/cli.js compare examples/manifest.yaml examples/results.node-a.json examples/results.node-b.json || test $? -eq 1
+      - name: Bundle root matches coreutils
+        run: |
+          want=$(node -p "require('./examples/bundle.json').root.slice(7)")
+          got=$(cd examples/evidence && find . -type f ! -path '*/.git/*' ! -name .git -printf '%P\n' | LC_ALL=C sort | xargs -d '\n' sha256sum | sha256sum | cut -c1-64)
+          test "$want" = "$got"
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
