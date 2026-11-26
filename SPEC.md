@@ -1,6 +1,6 @@
 # huygena-verify spec v0 (draft)
 
-> **Draft.** This is the v0 format used by `huygena-verify` 0.1.0. Field names, lint rules and the tolerance rules can change before Huygena launches. Tolerance rules per claim type are an open item in the [Huygena whitepaper](https://docs.huygena.xyz/open-items); this document proposes a v0 for them and says where a number is a default rather than a decision.
+> **Draft.** This is the v0 format used by `huygena-verify` 0.2.0. Field names, lint rules and the tolerance rules can change before Huygena launches. Tolerance rules per claim type are an open item in the [Huygena whitepaper](https://docs.huygena.xyz/open-items); this document proposes a v0 for them and says where a number is a default rather than a decision.
 
 Four JSON documents, each with a JSON Schema in [`schema/`](schema) generated from the zod schemas in [`src/schema.ts`](src/schema.ts):
 

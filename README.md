@@ -2,7 +2,7 @@
 
 Check a scientific replication without trusting anyone. Validate the run manifest, hash the evidence, catch any edited file, recompute every verdict from the numbers, and re-check a certificate. Offline, in Node or in the browser.
 
-`huygena-verify` is the open verification library behind [Huygena](https://preview.huygena.xyz), the replication market for science. Huygena re-runs published computational papers on attested GPUs, has an independent node re-run them, and records a verdict per claim. This tool is how anyone checks that record on their own machine.
+`huygena-verify` is the open verification library behind [Huygena](https://huygena.xyz), the replication market for science. Huygena re-runs published computational papers on attested GPUs, has an independent node re-run them, and records a verdict per claim. This tool is how anyone checks that record on their own machine.
 
 - **Manifest spec v0 and linter.** JSON Schema plus rules that catch a run nobody could repeat: a container pinned by tag, code pinned to a branch, a claim without a tolerance, no seeds.
 - **Content-addressed evidence.** A deterministic `bundle.json` with a root hash you can recompute with `sha256sum`.
@@ -299,11 +299,11 @@ The manifest hash is SHA-256 over the RFC 8785 canonical JSON of the parsed mani
 3. Logs and outputs are stored by hash as an **evidence bundle**. `hash` and `bundle` compute and check its root.
 4. The **certificate** anchors the manifest hash, the bundle root, the attestation hash, the confirming node and the verdicts on-chain. `cert` re-checks all of it that can be checked offline.
 
-Website: [preview.huygena.xyz](https://preview.huygena.xyz). Docs: [docs.huygena.xyz](https://docs.huygena.xyz), in particular [Manifest](https://docs.huygena.xyz/manifest), [Verdicts](https://docs.huygena.xyz/verdicts) and [Verify a certificate](https://docs.huygena.xyz/guides/verify).
+Website: [huygena.xyz](https://huygena.xyz). Docs: [docs.huygena.xyz](https://docs.huygena.xyz), in particular [Manifest](https://docs.huygena.xyz/manifest), [Verdicts](https://docs.huygena.xyz/verdicts) and [Verify a certificate](https://docs.huygena.xyz/guides/verify).
 
 ## Status
 
-Huygena is pre-launch. This is version 0.1.0 and the specs are draft v0.
+Huygena is pre-launch. This is version 0.2.0 and the specs are draft v0.
 
 **Works today, offline:**
 

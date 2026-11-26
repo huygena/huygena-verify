@@ -1,6 +1,6 @@
 {
   "name": "huygena-verify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Check a scientific replication without trusting anyone: validate run manifests, hash evidence bundles, catch edited files, recompute per-claim verdicts and re-check certificates. Offline. Library and CLI.",
   "license": "Apache-2.0",
   "homepage": "https://docs.huygena.xyz",

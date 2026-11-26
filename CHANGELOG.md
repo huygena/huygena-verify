@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.0 · 2026-11-26
+
+Specs stay draft v0; files written by 0.1.0 still verify.
+
+- Fixed: `huygena-verify hash <dir> -o <file>` on Windows. When the output file sat on another drive or outside the folder, its absolute path was added to the bundle's `ignore` list. CI now passes on Linux and Windows.
+- README links point to huygena.xyz.
+
 ## v0.1.0 · 2026-11-25
 
 First release. Everything runs offline. Specs are draft v0.
