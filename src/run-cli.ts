@@ -1,6 +1,6 @@
 import { existsSync } from "node:fs";
 import { readFile, writeFile } from "node:fs/promises";
-import { relative, resolve, sep } from "node:path";
+import { isAbsolute, relative, resolve, sep } from "node:path";
 import { version } from "../package.json";
 import { hashBundle, verifyBundle } from "./bundle-node";
 import { parseBundle, serializeBundle, type BundleDiff } from "./bundle-core";
@@ -269,7 +269,8 @@ async function cmdHash(a: Args): Promise<number> {
   // Keep the output file out of the bundle it describes.
   if (a.out) {
     const rel = relative(resolve(dir), resolve(a.out));
-    if (rel && !rel.startsWith("..") && !rel.startsWith(sep)) ignore.push(`/${rel.split(sep).join("/")}`);
+    // On Windows a path on another drive comes back absolute (C:\\...), so check isAbsolute too.
+    if (rel && !rel.startsWith("..") && !isAbsolute(rel)) ignore.push(`/${rel.split(sep).join("/")}`);
   }
   const skipped: string[] = [];
   const bundle = await hashBundleOrUsage(dir, ignore, (p, r) => skipped.push(`${p}: ${r}`));
